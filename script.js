@@ -2,25 +2,52 @@
 var human_score = 0;
 var computer_score = 0;
 
+const buttons = document.querySelectorAll("button");
 
-main();
+const container = document.querySelector("body");
 
-function main() {
-    rounds = parseInt(prompt("How many rounds? "));
+const eventGame = document.createElement("div");
+eventGame.classList.add("eventGame");
+eventGame.textContent = "";
+container.appendChild(eventGame);
 
-    for (i = 0; i < rounds; i++) {
-        playRound();
-        
-        console.log("Wins\nHuman: " + human_score + "\nComputer: " + computer_score);
+const human = document.createElement("div");
+human.classList.add("human");
+human.textContent = "Human: " + human_score;
+container.appendChild(human);
+
+const computer = document.createElement("div");
+computer.classList.add("computer");
+computer.textContent = "Computer: " + computer_score;
+container.appendChild(computer);
+
+const endGame = document.createElement("h2");
+endGame.classList.add("endGame");
+endGame.textContent = "";
+container.appendChild(endGame);
+
+
+// we use the .forEach method to iterate through each button
+buttons.forEach((button) => {
+  // and for each one we add a 'click' listener
+  button.addEventListener("click", () => {
+    playRound(button.id);
+    human.textContent = "Human: " + human_score;
+    computer.textContent = "Computer: " + computer_score;
+    if (human_score > 4) {
+        endGame.textContent = "Winner!";
     }
-}
+    else if (computer_score > 4) {
+        endGame.textContent = "Lose!";
+    }
+  });
+});
 
-function playRound() {
-    var human_choice = getHumanChoice();
+function playRound(choice) {
+    var human_choice = choice;
     var computer_choice = getComputerChoice();
 
-    console.log("Human: " + human_choice);
-    console.log("Computer: " + computer_choice);
+    eventGame.textContent = "You chose " + human_choice + " and computer chose " + computer_choice + "!\n";
 
     if (human_choice == computer_choice) {
         console.log("Tie");
